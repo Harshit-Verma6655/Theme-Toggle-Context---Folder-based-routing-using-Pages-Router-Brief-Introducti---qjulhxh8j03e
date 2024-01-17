@@ -1,26 +1,21 @@
-
-
 'use client'
 import React, { useState } from 'react';
+import { createContext, useContext } from 'react';
+const ThemeContext = createContext();
 
-const ThemeContext = React.createContext()
-const ThemeProvider = ({ children }) => {
-    const [theme, setTheme] = useState('light')
-    const toggleTheme = () => {
-        setTheme((theme) => {
-            // if (theme === 'light') {
-            //     return 'dark'
-            // } else {
-            //     return 'light'
-            // }
-            return theme === 'light' ? 'dark' : 'light'
-        })
-    }
+export function useThemeContext(){
+
+    return useContext(ThemeContext);
+}
+
+const ThemeProvider = (props) =>{
+    let [global, setGlobal]=useState(true);
+    let [local, setLocal]=useState(true);
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            {children}
+        <ThemeContext.Provider value={{global, setGlobal, local, setLocal}}>
+        {props.children}
         </ThemeContext.Provider>
     )
 }
 
-export { ThemeProvider, ThemeContext }
+export {ThemeProvider,ThemeContext}
